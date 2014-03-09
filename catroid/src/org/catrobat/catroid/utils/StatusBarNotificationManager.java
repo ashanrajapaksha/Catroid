@@ -152,6 +152,19 @@ public final class StatusBarNotificationManager {
 			notificationManager.notify(id, notificationBuilder.build());
 		}
 	}
+	public void showOrUpdateNotifciation(int id,int processInPercent,String changeDoneText){
+
+		NotificationData notificationData = notificationDataMap.get(id);
+		if (notificationData == null) {
+			return;
+		}
+		notificationData.setNotificationTextDone(changeDoneText);
+		notificationDataMap.put(id,notificationData);
+
+		showOrUpdateNotification(id, processInPercent);
+
+
+	}
 
 	public void cancelNotification(int id) {
 		notificationDataMap.remove(id);
