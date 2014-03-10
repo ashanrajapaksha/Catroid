@@ -75,7 +75,7 @@ public class AssertionErrorMessageTest extends TestCase {
 	private String regexAssertContainsErrorMessage;
 	private String regexAssertDoesntStartWithNumber;
 	private String regexIsCompleteCommand;
-	private StringBuffer errorMessages;
+	private String errorMessages;
 	private boolean errorFound;
 
 	public AssertionErrorMessageTest() {
@@ -218,7 +218,7 @@ public class AssertionErrorMessageTest extends TestCase {
 				if (!currentLine.matches(regexAssertContainsErrorMessage)
 						|| !currentLine.matches(regexAssertDoesntStartWithNumber)) {
 					errorFound = true;
-					errorMessages.append(file.getCanonicalPath() + " in line " + lineNumber + "\n");
+					errorMessages = errorMessages + (file.getCanonicalPath() + " in line " + lineNumber + "\n");
 				}
 			}
 		}
@@ -227,7 +227,7 @@ public class AssertionErrorMessageTest extends TestCase {
 	}
 
 	public void testAssertionErrorMessagesPresent() throws IOException {
-		errorMessages = new StringBuffer();
+		errorMessages = new String();
 		errorFound = false;
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
