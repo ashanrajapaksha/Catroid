@@ -65,6 +65,21 @@ public class InternFormulaTokenSelection {
 		return super.equals(objectToCompare);
 	}
 
+	@Override
+	public int hashCode() {
+		int result = 31;
+		int prime = 41;
+
+		result = prime * result + internTokenSelectionStart;
+		result = prime * result + internTokenSelectionEnd;
+		if(tokenSelectionType != null)
+		{
+			result = prime * result + tokenSelectionType.hashCode();
+		}
+
+		return result;
+	}
+
 	public InternFormulaTokenSelection deepCopy() {
 
 		return new InternFormulaTokenSelection(tokenSelectionType, internTokenSelectionStart, internTokenSelectionEnd);
