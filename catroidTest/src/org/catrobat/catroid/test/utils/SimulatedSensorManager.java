@@ -176,10 +176,15 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 				sensorEvent = constructor.newInstance(3);
 
 			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
 			} catch (InstantiationException e) {
+				e.printStackTrace();
 			} catch (IllegalAccessException e) {
+				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+				e.printStackTrace();
 			}
 
 			if (sensorEvent == null) {
