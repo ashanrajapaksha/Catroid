@@ -51,7 +51,7 @@ public class SystemOutTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (line.contains(string)) {
 				errorFound = true;
-				errorMessages.append(file.getName()).append(" in line ").append(lineCount).append("\n");
+				errorMessages.append(file.getName()).append(" in line ").append(lineCount).append('\n');
 			}
 			++lineCount;
 		}
