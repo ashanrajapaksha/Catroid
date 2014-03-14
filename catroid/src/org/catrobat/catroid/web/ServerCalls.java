@@ -42,7 +42,7 @@ import java.util.HashMap;
 
 public final class ServerCalls {
 
-	private static final String TAG = "ServerCalls";
+	private static final String LOG_TAG = ServerCalls.class.getCanonicalName();
 
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
 	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
@@ -128,14 +128,14 @@ public final class ServerCalls {
 
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
 
-			Log.v(TAG, "url to upload: " + serverUrl);
+			Log.v(LOG_TAG, "url to upload: " + serverUrl);
 
 			String answer = connection.doHttpsPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
 					receiver, notificationId);
 			if (answer != null && !answer.isEmpty()) {
 				// check statusCode from Webserver
 				JSONObject jsonObject = null;
-				Log.v(TAG, "result string: " + answer);
+				Log.v(LOG_TAG, "result string: " + answer);
 
 				// needed cause of a beautiful test case which gets resultString through reflection :)
 				resultString = answer;
@@ -160,11 +160,11 @@ public final class ServerCalls {
 					throw new WebconnectionException(uploadStatusCode, serverAnswer);
 				}
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (JSONException jsonException) {
+			Log.e(LOG_TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+			Log.e(LOG_TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 	}
@@ -175,11 +175,11 @@ public final class ServerCalls {
 		try {
 			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
 					notificationId);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		} catch (MalformedURLException exception) {
+			Log.e(LOG_TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(LOG_TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 
@@ -193,14 +193,14 @@ public final class ServerCalls {
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
-			Log.v(TAG, "post values - token:" + token + "user: " + username);
-			Log.v(TAG, "url to upload: " + serverUrl);
+			Log.v(LOG_TAG, "post values - token:" + token + "user: " + username);
+			Log.v(LOG_TAG, "url to upload: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
 
-			Log.v(TAG, "result string: " + resultString);
+			Log.v(LOG_TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -211,8 +211,8 @@ public final class ServerCalls {
 			} else {
 				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (JSONException exception) {
+			Log.e(LOG_TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		}
 	}
@@ -239,14 +239,14 @@ public final class ServerCalls {
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
-			Log.v(TAG, "url to use: " + serverUrl);
+			Log.v(LOG_TAG, "url to use: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
 			String tokenReceived = "";
 
-			Log.v(TAG, "result string: " + resultString);
+			Log.v(LOG_TAG, "result string: " + resultString);
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -274,8 +274,8 @@ public final class ServerCalls {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 			return registered;
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (JSONException exception) {
+			Log.e(LOG_TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
 		}
 	}

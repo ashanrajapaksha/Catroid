@@ -109,8 +109,8 @@ public class ConnectionWrapper {
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws WebconnectionException {
 		try {
 			return HttpRequest.post(urlString).form(postValues).body();
-		} catch (HttpRequestException e) {
-			e.printStackTrace();
+		} catch (HttpRequestException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
 		}

@@ -25,6 +25,7 @@ package org.catrobat.catroid.transfers;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -33,6 +34,8 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
+	private static final String LOG_TAG = CheckTokenTask.class.getSimpleName();
+
 	private FragmentActivity fragmentActivity;
 	private ProgressDialog progressDialog;
 	private String token;
@@ -74,7 +77,7 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			return ServerCalls.getInstance().checkToken(token, username);
 
 		} catch (WebconnectionException e) {
-			e.printStackTrace();
+			Log.e(LOG_TAG, Log.getStackTraceString(e));
 			exception = e;
 		}
 		return false;
